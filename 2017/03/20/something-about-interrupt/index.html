@@ -87,28 +87,16 @@
 
 
 
-<meta name="description" content="interrupt意思为中断,为线程运行时提供一个中断机制.但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.
-在Thread里面提供了三个方法:
-
-interrupt() 对一个线程进行中断操作,就需要调用此方法,设置中断信号
-interrupted() 判断线程是否设置过中断信号,返回true/false,同时清除1中方法">
+<meta name="description" content="interrupt意思为中断,为线程运行时提供一个中断机制.但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="interrupt简单认识">
 <meta property="og:url" content="http://bigqi.xyz/2017/03/20/something-about-interrupt/index.html">
 <meta property="og:site_name" content="xiaoyu">
-<meta property="og:description" content="interrupt意思为中断,为线程运行时提供一个中断机制.但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.
-在Thread里面提供了三个方法:
-
-interrupt() 对一个线程进行中断操作,就需要调用此方法,设置中断信号
-interrupted() 判断线程是否设置过中断信号,返回true/false,同时清除1中方法">
-<meta property="og:updated_time" content="2017-03-19T16:08:35.370Z">
+<meta property="og:description" content="interrupt意思为中断,为线程运行时提供一个中断机制.但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.">
+<meta property="og:updated_time" content="2017-03-19T16:15:24.720Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="interrupt简单认识">
-<meta name="twitter:description" content="interrupt意思为中断,为线程运行时提供一个中断机制.但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.
-在Thread里面提供了三个方法:
-
-interrupt() 对一个线程进行中断操作,就需要调用此方法,设置中断信号
-interrupted() 判断线程是否设置过中断信号,返回true/false,同时清除1中方法">
+<meta name="twitter:description" content="interrupt意思为中断,为线程运行时提供一个中断机制.但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.">
 
 
 
@@ -386,6 +374,7 @@ interrupted() 判断线程是否设置过中断信号,返回true/false,同时清
 
       
         <p>interrupt意思为中断,为线程运行时提供一个中断机制.<br>但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.</p>
+<a id="more"></a>
 <p>在Thread里面提供了三个方法:</p>
 <ol>
 <li>interrupt() 对一个线程进行中断操作,就需要调用此方法,设置中断信号</li>
