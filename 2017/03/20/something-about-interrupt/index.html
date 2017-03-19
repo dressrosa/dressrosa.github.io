@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="-finally," />
+  <meta name="keywords" content="-interrupt," />
 
 
 
@@ -87,25 +87,28 @@
 
 
 
-<meta name="description" content="记录一下finally的一些简单知识点.
+<meta name="description" content="interrupt意思为中断,为线程运行时提供一个中断机制.但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.
+在Thread里面提供了三个方法:
 
-正常情况下finally都会执行,且我们最好不要在finally里面执行业务逻辑,一般用来对资源的释放
-finally虽说是肯定会执行的,但是有些情况下就不会执行">
+interrupt() 对一个线程进行中断操作,就需要调用此方法,设置中断信号
+interrupted() 判断线程是否设置过中断信号,返回true/false,同时清除1中方法">
 <meta property="og:type" content="article">
-<meta property="og:title" content="finally小结">
-<meta property="og:url" content="http://bigqi.xyz/2017/03/19/something-about-finally/index.html">
+<meta property="og:title" content="interrupt简单认识">
+<meta property="og:url" content="http://bigqi.xyz/2017/03/20/something-about-interrupt/index.html">
 <meta property="og:site_name" content="xiaoyu">
-<meta property="og:description" content="记录一下finally的一些简单知识点.
+<meta property="og:description" content="interrupt意思为中断,为线程运行时提供一个中断机制.但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.
+在Thread里面提供了三个方法:
 
-正常情况下finally都会执行,且我们最好不要在finally里面执行业务逻辑,一般用来对资源的释放
-finally虽说是肯定会执行的,但是有些情况下就不会执行">
-<meta property="og:updated_time" content="2017-03-19T08:16:39.820Z">
+interrupt() 对一个线程进行中断操作,就需要调用此方法,设置中断信号
+interrupted() 判断线程是否设置过中断信号,返回true/false,同时清除1中方法">
+<meta property="og:updated_time" content="2017-03-19T16:08:35.370Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="finally小结">
-<meta name="twitter:description" content="记录一下finally的一些简单知识点.
+<meta name="twitter:title" content="interrupt简单认识">
+<meta name="twitter:description" content="interrupt意思为中断,为线程运行时提供一个中断机制.但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.
+在Thread里面提供了三个方法:
 
-正常情况下finally都会执行,且我们最好不要在finally里面执行业务逻辑,一般用来对资源的释放
-finally虽说是肯定会执行的,但是有些情况下就不会执行">
+interrupt() 对一个线程进行中断操作,就需要调用此方法,设置中断信号
+interrupted() 判断线程是否设置过中断信号,返回true/false,同时清除1中方法">
 
 
 
@@ -133,13 +136,13 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
 
 
 
-  <link rel="canonical" href="http://bigqi.xyz/2017/03/19/something-about-finally/"/>
+  <link rel="canonical" href="http://bigqi.xyz/2017/03/20/something-about-interrupt/"/>
 
 
 
 
 
-  <title> finally小结 | xiaoyu </title>
+  <title> interrupt简单认识 | xiaoyu </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -278,7 +281,7 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://bigqi.xyz/2017/03/19/something-about-finally/">
+    <link itemprop="mainEntityOfPage" href="http://bigqi.xyz/2017/03/20/something-about-interrupt/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xiaoyu">
@@ -299,7 +302,7 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
             
             
               
-                finally小结
+                interrupt简单认识
               
             
           </h1>
@@ -314,8 +317,8 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-19T16:00:38+08:00">
-                2017-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-20T00:06:43+08:00">
+                2017-03-20
               </time>
             
 
@@ -355,8 +358,8 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/19/something-about-finally/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/19/something-about-finally/" itemprop="commentCount"></span>
+                <a href="/2017/03/20/something-about-interrupt/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/20/something-about-interrupt/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -382,17 +385,22 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
       
 
       
-        <h2 id="记录一下finally的一些简单知识点"><a href="#记录一下finally的一些简单知识点" class="headerlink" title="记录一下finally的一些简单知识点."></a>记录一下finally的一些简单知识点.</h2><hr>
+        <p>interrupt意思为中断,为线程运行时提供一个中断机制.<br>但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.</p>
+<p>在Thread里面提供了三个方法:</p>
 <ol>
-<li>正常情况下finally都会执行,且我们最好不要在finally里面执行业务逻辑,一般用来对资源的释放</li>
-<li>finally虽说是肯定会执行的,但是有些情况下就不会执行<a id="more"></a>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">Thread t = new Thread(new Runnable() &#123;</div><div class="line">			@Override</div><div class="line">			public void run() &#123;</div><div class="line">				try &#123;</div><div class="line">					System.out.println(&quot;abc&quot;);</div><div class="line">					System.exit(0);//直接结束程序 类似于关闭电源</div><div class="line">				&#125; catch (Exception e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125; finally &#123;</div><div class="line">					System.out.println(&quot;finally&quot;);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">		t.start();</div></pre></td></tr></table></figure>
-</li>
+<li>interrupt() 对一个线程进行中断操作,就需要调用此方法,设置中断信号</li>
+<li>interrupted() 判断线程是否设置过中断信号,返回true/false,同时清除1中方法设置的信号,所以连续俩次调用此方法后,第二次会返回false</li>
+<li>isInterrupted() 判断线程是否设置过中断信号,但并没有清除信号.</li>
 </ol>
-<p>从学习中我们知道,如果没有一个用户线程(即非守护线程)在运行,jvm就会自动退出, 当t线程start()后,进入main线程(非daemon线程),main线程运行完毕后就没有用户线程了,所有jvm退出,导致finally不能运行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">public static void main(String args[]) throws Exception &#123;</div><div class="line">		Thread t = new Thread(new Runnable() &#123;</div><div class="line">			@Override</div><div class="line">			public void run() &#123;</div><div class="line">				try &#123;</div><div class="line">					System.out.println(&quot;abc&quot;);</div><div class="line">					Thread.sleep(1000);</div><div class="line">				&#125; catch (Exception e) &#123;</div><div class="line">					e.printStackTrace();</div><div class="line">				&#125; finally &#123;</div><div class="line">					System.out.println(&quot;finally&quot;);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;);</div><div class="line">		t.setDaemon(true);//设置为守护线程</div><div class="line">		t.start();</div><div class="line">		System.out.println(&quot;aaa&quot;);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
-<p>3.eclipse用debug模式断点到try的里面,然后鼠标点强制关闭线程 ,finally也不会运行(相当于断电),呵呵</p>
-<p>所以,finally理论上是总会运行,但是再怎么理论也需要时间和机会让他运行,就如病毒再强,我把电源拔了,你还有啥用.</p>
+<p>所以当一个线程调用interrupt()的时候,其实就是设置了一个中断信号,然后来让线程知道有中断发生,好让其决定怎么去回应这个信号.</p>
+<p>1.所以interrupt适合用在join sleep wait这些阻塞型的方法,从而达到提前结束阻塞的目的.原因是 这种阻塞类的操作,在阻塞时调用interrupt()设置中断信号,会导致这些操作抛出interruptException,这样就能提前结束阻塞.</p>
+<p>2.在不是这些阻塞情况时,我们可以设置一个votatile变量,来表示结束状态,<br>然后我们调用interrupt()来发出信号,告诉程序后续处理.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">class B extends Thread &#123;</div><div class="line">	private volatile boolean stop = false;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public void run() &#123;</div><div class="line">		int i = 0;</div><div class="line">		while (!stop) &#123;</div><div class="line">			for (int a = 0; a &lt; 10000000; a++)</div><div class="line">				for (int b = 0; b &lt; 5000000; b++) &#123;</div><div class="line"></div><div class="line">				&#125;</div><div class="line">			System.out.println(&quot;吃饭中..&quot; + i++);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void stoped() &#123;</div><div class="line">		stop = true;</div><div class="line">		this.interrupt();//设置中断信号</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们在线程运行后可以这样:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">t2.start();</div><div class="line">Thread.sleep(1000);</div><div class="line">t.stoped();</div><div class="line">if (t.isInterrupted()) &#123;</div><div class="line">	throw new InterruptedException();</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>通过判断线程是否中断过,主动抛出中断异常,来让更上层的程序进行后续处理.</p>
+<hr>
+<p><a href="https://github.com/dressrosa/dailydemo" target="_blank" rel="external">练习的代码参见github</a></p>
 
       
     </div>
@@ -422,7 +430,7 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
       
         <div class="post-tags">
           
-            <a href="/tags/finally/" rel="tag"># -finally</a>
+            <a href="/tags/interrupt/" rel="tag"># -interrupt</a>
           
         </div>
       
@@ -435,15 +443,15 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2017/03/19/something-about-finally/" rel="next" title="finally小结">
+                <i class="fa fa-chevron-left"></i> finally小结
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/20/something-about-interrupt/" rel="prev" title="interrupt简单认识">
-                interrupt简单认识 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -458,10 +466,10 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/03/19/something-about-finally/"
-     data-title="finally小结"
+        <div class="ds-share flat" data-thread-key="2017/03/20/something-about-interrupt/"
+     data-title="interrupt简单认识"
      data-content=""
-     data-url="http://bigqi.xyz/2017/03/19/something-about-finally/">
+     data-url="http://bigqi.xyz/2017/03/20/something-about-interrupt/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -488,8 +496,8 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/19/something-about-finally/"
-           data-title="finally小结" data-url="http://bigqi.xyz/2017/03/19/something-about-finally/">
+      <div class="ds-thread" data-thread-key="2017/03/20/something-about-interrupt/"
+           data-title="interrupt简单认识" data-url="http://bigqi.xyz/2017/03/20/something-about-interrupt/">
       </div>
     
   </div>
@@ -513,17 +521,8 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/head.jpg"
@@ -596,22 +595,6 @@ finally虽说是肯定会执行的,但是有些情况下就不会执行">
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#记录一下finally的一些简单知识点"><span class="nav-number">1.</span> <span class="nav-text">记录一下finally的一些简单知识点.</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
