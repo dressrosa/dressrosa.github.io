@@ -3,8 +3,8 @@ title: spring注入static变量
 date: 2017-03-20 21:04:43
 categories: spring
 tags: 
-	-spring 
-	-static
+	- spring 
+	- static
 ---
 
 在spring中默认是不能注入static变量的,因为static是类变量,而spring是基于实例对象进行注入的.  

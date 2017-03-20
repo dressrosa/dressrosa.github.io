@@ -3,7 +3,7 @@ title: interrupt简单认识
 date: 2017-03-20 00:06:43
 categories: "java"
 tags: 
-	-interrupt
+	- interrupt
 ---
 interrupt意思为中断,为线程运行时提供一个中断机制.
 但是中断和阻塞是不一样的,线程的中断并没有结束或暂停线程,而是对线程设置了一个中断的信号,通过此信号来进行具体的其他操作.
