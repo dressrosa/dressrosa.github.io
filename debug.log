@@ -1,0 +1,12 @@
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Hexo version: 3.2.2","time":"2017-03-19T06:52:30.754Z","v":0}
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Working directory: D:\\myGit\\dressrosa.github.io\\","time":"2017-03-19T06:52:30.759Z","v":0}
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Config loaded: D:\\myGit\\dressrosa.github.io\\_config.yml","time":"2017-03-19T06:52:31.000Z","v":0}
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Script loaded: themes\\next\\scripts\\merge-configs.js","time":"2017-03-19T06:52:31.027Z","v":0}
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Script loaded: themes\\next\\scripts\\tags\\button.js","time":"2017-03-19T06:52:31.028Z","v":0}
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Script loaded: themes\\next\\scripts\\merge.js","time":"2017-03-19T06:52:31.035Z","v":0}
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Script loaded: themes\\next\\scripts\\tags\\exturl.js","time":"2017-03-19T06:52:31.036Z","v":0}
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Script loaded: themes\\next\\scripts\\tags\\center-quote.js","time":"2017-03-19T06:52:31.037Z","v":0}
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Script loaded: themes\\next\\scripts\\tags\\group-pictures.js","time":"2017-03-19T06:52:31.039Z","v":0}
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Script loaded: themes\\next\\scripts\\tags\\note.js","time":"2017-03-19T06:52:31.039Z","v":0}
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Script loaded: themes\\next\\scripts\\tags\\full-image.js","time":"2017-03-19T06:52:31.040Z","v":0}
+{"name":"hexo","hostname":"AFAAW-704030705","pid":4064,"level":20,"msg":"Database saved","time":"2017-03-19T06:52:31.058Z","v":0}
