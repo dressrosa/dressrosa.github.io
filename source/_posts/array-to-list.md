@@ -8,7 +8,7 @@ tags:
 String phone = "a,b,c,d";
 Arrays.asList(phone.split(",")); 
 
-这个产生的是一个固定大小,不可变的数组,
+这个产生的是一个固定大小,不可变的数组 ,
 是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:
 <!--more-->
 ```

@@ -88,18 +88,18 @@
 
 
 <meta name="description" content="String phone = “a,b,c,d”;Arrays.asList(phone.split(“,”)); 
-这个产生的是一个固定大小,不可变的数组,是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:">
+这个产生的是一个固定大小,不可变的数组 ,是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:">
 <meta property="og:type" content="article">
 <meta property="og:title" content="array转list的注意点">
 <meta property="og:url" content="http://www.iwouldbe.com/2017/04/18/array-to-list/index.html">
 <meta property="og:site_name" content="xiaoyu">
 <meta property="og:description" content="String phone = “a,b,c,d”;Arrays.asList(phone.split(“,”)); 
-这个产生的是一个固定大小,不可变的数组,是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:">
-<meta property="og:updated_time" content="2017-04-18T08:09:01.258Z">
+这个产生的是一个固定大小,不可变的数组 ,是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:">
+<meta property="og:updated_time" content="2017-04-18T09:10:42.297Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="array转list的注意点">
 <meta name="twitter:description" content="String phone = “a,b,c,d”;Arrays.asList(phone.split(“,”)); 
-这个产生的是一个固定大小,不可变的数组,是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:">
+这个产生的是一个固定大小,不可变的数组 ,是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:">
 
 
 
@@ -367,7 +367,7 @@
 
       
         <p>String phone = “a,b,c,d”;<br>Arrays.asList(phone.split(“,”)); </p>
-<p>这个产生的是一个固定大小,不可变的数组,<br>是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@SafeVarargs</div><div class="line">Returns a fixed-size list backed by the specified array. (Changes to the returned list &quot;write through&quot; to the array.) This method acts as bridge between array-based and collection-based APIs, in combination with Collection.toArray. The returned list is serializable and implements RandomAccess.</div><div class="line">This method also provides a convenient way to create a fixed-size list initialized to contain several elements:</div><div class="line">     List&lt;String&gt; stooges = Arrays.asList(&quot;Larry&quot;, &quot;Moe&quot;, &quot;Curly&quot;);</div><div class="line">Parameters:</div><div class="line">a the array by which the list will be backed</div><div class="line">Returns:</div><div class="line">a list view of the specified array //只是作为一种view形式</div></pre></td></tr></table></figure></p>
+<p>这个产生的是一个固定大小,不可变的数组 ,<br>是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@SafeVarargs</div><div class="line">Returns a fixed-size list backed by the specified array. (Changes to the returned list &quot;write through&quot; to the array.) This method acts as bridge between array-based and collection-based APIs, in combination with Collection.toArray. The returned list is serializable and implements RandomAccess.</div><div class="line">This method also provides a convenient way to create a fixed-size list initialized to contain several elements:</div><div class="line">     List&lt;String&gt; stooges = Arrays.asList(&quot;Larry&quot;, &quot;Moe&quot;, &quot;Curly&quot;);</div><div class="line">Parameters:</div><div class="line">a the array by which the list will be backed</div><div class="line">Returns:</div><div class="line">a list view of the specified array //只是作为一种view形式</div></pre></td></tr></table></figure></p>
 <p>所以要进行操作要用这种:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Lists.newArrayList(phone.split(&quot;,&quot;));</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@GwtCompatible(serializable=true)</div><div class="line">Creates a mutableArrayList instance containing the given elements.</div><div class="line">Note: if mutability is not required and the elements are non-null, use an overload of ImmutableList.of() (for varargs) or ImmutableList.copyOf(Object[]) (for an array) instead.</div><div class="line">Parameters:</div><div class="line">elements the elements that the list should contain, in order</div><div class="line">Returns:</div><div class="line">a new ArrayList containing those elements</div></pre></td></tr></table></figure>
