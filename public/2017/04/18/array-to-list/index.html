@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="blog, java" />
+  <meta name="keywords" content="list," />
 
 
 
@@ -87,12 +87,19 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="xiaoyu">
-<meta property="og:url" content="http://www.iwouldbe.com/tags/interrupt/index.html">
+<meta name="description" content="String phone = “a,b,c,d”;Arrays.asList(phone.split(“,”)); 
+这个产生的是一个固定大小,不可变的数组,是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:">
+<meta property="og:type" content="article">
+<meta property="og:title" content="array转list的注意点">
+<meta property="og:url" content="http://www.iwouldbe.com/2017/04/18/array-to-list/index.html">
 <meta property="og:site_name" content="xiaoyu">
+<meta property="og:description" content="String phone = “a,b,c,d”;Arrays.asList(phone.split(“,”)); 
+这个产生的是一个固定大小,不可变的数组,是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:">
+<meta property="og:updated_time" content="2017-04-18T08:09:01.258Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xiaoyu">
+<meta name="twitter:title" content="array转list的注意点">
+<meta name="twitter:description" content="String phone = “a,b,c,d”;Arrays.asList(phone.split(“,”)); 
+这个产生的是一个固定大小,不可变的数组,是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:">
 
 
 
@@ -120,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://www.iwouldbe.com/tags/interrupt/"/>
+  <link rel="canonical" href="http://www.iwouldbe.com/2017/04/18/array-to-list/"/>
 
 
 
 
 
-  <title> 标签: interrupt | xiaoyu </title>
+  <title> array转list的注意点 | xiaoyu </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -151,7 +158,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -255,46 +262,196 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-collapse">
-    <div class="collection-title">
-      <h2 >
-        interrupt
-        <small>标签</small>
-      </h2>
-    </div>
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.iwouldbe.com/2017/04/18/array-to-list/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xiaoyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoyu">
+    </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                array转list的注意点
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-18T16:03:42+08:00">
+                2017-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/04/18/array-to-list/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
       
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+      
+        <p>String phone = “a,b,c,d”;<br>Arrays.asList(phone.split(“,”)); </p>
+<p>这个产生的是一个固定大小,不可变的数组,<br>是无法进行增加,删除操作的,作用有限 ,jdk里面解释为:<br><a id="more"></a><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@SafeVarargs</div><div class="line">Returns a fixed-size list backed by the specified array. (Changes to the returned list &quot;write through&quot; to the array.) This method acts as bridge between array-based and collection-based APIs, in combination with Collection.toArray. The returned list is serializable and implements RandomAccess.</div><div class="line">This method also provides a convenient way to create a fixed-size list initialized to contain several elements:</div><div class="line">     List&lt;String&gt; stooges = Arrays.asList(&quot;Larry&quot;, &quot;Moe&quot;, &quot;Curly&quot;);</div><div class="line">Parameters:</div><div class="line">a the array by which the list will be backed</div><div class="line">Returns:</div><div class="line">a list view of the specified array //只是作为一种view形式</div></pre></td></tr></table></figure></p>
+<p>所以要进行操作要用这种:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Lists.newArrayList(phone.split(&quot;,&quot;));</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@GwtCompatible(serializable=true)</div><div class="line">Creates a mutableArrayList instance containing the given elements.</div><div class="line">Note: if mutability is not required and the elements are non-null, use an overload of ImmutableList.of() (for varargs) or ImmutableList.copyOf(Object[]) (for an array) instead.</div><div class="line">Parameters:</div><div class="line">elements the elements that the list should contain, in order</div><div class="line">Returns:</div><div class="line">a new ArrayList containing those elements</div></pre></td></tr></table></figure>
 
-      <h1 class="post-title">
+      
+    </div>
+
+    <div>
+      
         
-            <a class="post-title-link" href="/2017/03/20/something-about-interrupt/" itemprop="url">
-              
-                <span itemprop="name">interrupt简单认识</span>
-              
-            </a>
+
+      
+    </div>
+
+    <div>
+      
         
-      </h1>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-20T00:06:43+08:00"
-              content="2017-03-20" >
-          03-20
-        </time>
-      </div>
+      
+    </div>
 
-    </header>
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/list/" rel="tag"># list</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/18/mysql-transfer/" rel="next" title="mysql和转账的实现">
+                <i class="fa fa-chevron-left"></i> mysql和转账的实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/18/transfer-params/" rel="prev" title="前后台传参方式">
+                前后台传参方式 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </article>
 
 
-    
-  </div>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
           
           </div>
@@ -302,6 +459,12 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
 
         </div>
         
@@ -500,6 +663,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 

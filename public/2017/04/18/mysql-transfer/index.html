@@ -1,0 +1,772 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mysql," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/rain.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="做个平台间余额的互相转账,重点在于如何解决并发访问数据错乱的问题.比如俩个人之间同时都在给对方转账.以及很多人同时给一个人转账.  
+必须保证数据库里面的数据是随时正确的.我本没有想到过这一层面,被提醒的.比如有个转账的方法transfer(业务逻辑主要写在这里)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql和转账的实现">
+<meta property="og:url" content="http://www.iwouldbe.com/2017/04/18/mysql-transfer/index.html">
+<meta property="og:site_name" content="xiaoyu">
+<meta property="og:description" content="做个平台间余额的互相转账,重点在于如何解决并发访问数据错乱的问题.比如俩个人之间同时都在给对方转账.以及很多人同时给一个人转账.  
+必须保证数据库里面的数据是随时正确的.我本没有想到过这一层面,被提醒的.比如有个转账的方法transfer(业务逻辑主要写在这里)">
+<meta property="og:updated_time" content="2017-04-18T08:01:22.332Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql和转账的实现">
+<meta name="twitter:description" content="做个平台间余额的互相转账,重点在于如何解决并发访问数据错乱的问题.比如俩个人之间同时都在给对方转账.以及很多人同时给一个人转账.  
+必须保证数据库里面的数据是随时正确的.我本没有想到过这一层面,被提醒的.比如有个转账的方法transfer(业务逻辑主要写在这里)">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.iwouldbe.com/2017/04/18/mysql-transfer/"/>
+
+
+
+
+
+  <title> mysql和转账的实现 | xiaoyu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiaoyu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.iwouldbe.com/2017/04/18/mysql-transfer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xiaoyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoyu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                mysql和转账的实现
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-18T16:00:32+08:00">
+                2017-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/04/18/mysql-transfer/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>做个平台间余额的互相转账,重点在于如何解决并发访问数据错乱的问题.比如俩个人之间同时都在给对方转账.以及很多人同时给一个人转账.  </p>
+<p>必须保证数据库里面的数据是随时正确的.<br>我本没有想到过这一层面,被提醒的.<br>比如有个转账的方法transfer(业务逻辑主要写在这里)<br><a id="more"></a><br>1.首先想到的用多线程加锁,看了资料.是可以实现,但是问题是对方法加锁或者代码块加锁,那么每次只能执行一个线程,a转给b执行了,可c却不能同时转给d,二者根本不会影响啊.所以多线程白看了. </p>
+<p>2.然后就取决在数据库上面了.用的是mysql innodb,所以找了这方面锁的知识.<br>这篇博客写的不错,感谢:<a href="http://www.cnblogs.com/Arlen/articles/1756616.html" target="_blank" rel="external">http://www.cnblogs.com/Arlen/articles/1756616.html</a> </p>
+<p>结合其他的参考学习,我总结了一下: </p>
+<p>mysql innodb主要有表级锁和行级锁,转账之间不能互相影响,所以选择行级锁. </p>
+<p>行级锁有两种:共享锁和排他锁 </p>
+<p>如何加锁:</p>
+<ul>
+<li>共享锁:select xxxx lock in share mode </li>
+<li>排他锁:select xxx for update </li>
+</ul>
+<p>顾名思义共享锁的重点在于多个事务可以同时共享同一资源上的共享锁,如果一个事务获取了一个数据的共享锁,那么别的事务也可以再获取这个锁.获取共享锁的事务可以对数据进行读操作.,读完了就释放. </p>
+<p>排他锁就是一旦事务获取了这个锁,他就必须持有这个锁到结束,并不准其他事务获取这个锁.持有排他锁的事务可以对数据进行写操作.</p>
+<p>然后明确一点一个事务在一个时刻里只能拥有一把锁</p>
+<p>在转账时如果我先查找用户的账户信息,如果我用共享锁的话,别的事务也可以共享这个锁,这时候就会产生死锁. </p>
+<p>这里的死锁产生的原因在于: </p>
+<p>当A向B转账的时候,B也在向C转账,A开始转账的时候获取A,B账户信息,A开始转账的时候获取C,B账户信息,这里是共享锁,然后我需要对账户进行更新,这时候问题就出现了; </p>
+<p>假如A转账在准备更新B的信息时,发现B转账也准备更新B,A就等B释放共享锁,B也等A在释放共享锁,也就产生死锁了. </p>
+<p>如果没有,那么在查询完后,A事务就释放了共享锁,然后这时候别的B事务就可以获取这个用户账户信息的共享锁, </p>
+<p>假如B获取了.那A了刚刚查出来了用户信息,想改的时候(mysql修改默认加上排他锁)发现资源又被锁了.给别人挪用了.别人对他干了啥我哪知道,以后数据就肯能和我刚读出来的不一样了. </p>
+<p>排它锁事务一旦获取了就一直到事务结束都会拥有这把锁,这样就很好的杜绝了数据被修改的可能性.那么这时候重点就在于这里的事务怎么开始和啥时候结束了.我的项目用的是springMVC,就是spring的事务是怎么确定的. </p>
+<p>这篇博客写的不错,感谢:   <a href="http://www.cnblogs.com/davidwang456/p/3832949.html" target="_blank" rel="external">http://www.cnblogs.com/davidwang456/p/3832949.html</a> </p>
+<p>这里不需要知道spring事务的深层原理,只需知道spring事务是在进入sercice层执行方法的时候开始定义一个事务,然后在这个方法结束后事务才结束(事务提交).就是说在这个方法里面不管调用了多少个dao方法,都不会影响锁的丢失.也就是说我进入方法查询用户加了排他锁,在这个方法结束之前该数据就是安全的.</p>
+<p>好了理论说完了,看程序了:<br>这是我的service方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">@Transactional(readOnly=false)</div><div class="line">    public int transfer(String userId, String money, String remarks,</div><div class="line">            String otherId) &#123;</div><div class="line">        HcUser me = this.userDao.getUserForUpdate(userId);//获取用户信息</div><div class="line">        HcUser other = this.userDao.getUserForUpdate(otherId);//获取用户信息</div><div class="line">      //这里写转账的一些操作(修改/插入等)</div><div class="line">        return 0;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>这是mybatis的sql:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;select id=&quot;getUserForUpdate&quot; parameterType=&quot;java.lang.String&quot; resultType=&quot;HcUser&quot;&gt;</div><div class="line">    select * </div><div class="line">    from hc_user </div><div class="line">    where id=#&#123;id&#125;</div><div class="line">    for update &lt;!-- 这里加锁--&gt;</div><div class="line">&lt;/select&gt;</div></pre></td></tr></table></figure>
+<p>写的是web项目,需要在浏览器敲地址测试,但是无法实现多线程,于是可以这样:<br>用java写访问url的程序(网上找的拉):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div></pre></td><td class="code"><pre><div class="line">package examples;</div><div class="line"></div><div class="line">import java.io.BufferedReader;</div><div class="line">import java.io.IOException;</div><div class="line">import java.io.InputStream;</div><div class="line">import java.io.InputStreamReader;</div><div class="line">import java.net.HttpURLConnection;</div><div class="line">import java.net.URL;</div><div class="line"></div><div class="line">import org.apache.commons.lang3.RandomUtils;</div><div class="line"></div><div class="line">public class TEST &#123;</div><div class="line"></div><div class="line">    public static void main(String args[]) &#123;</div><div class="line">        for(int i = 0;i &lt;400; i++) &#123;//设置400个线程</div><div class="line">            String money =RandomUtils.nextInt(1, 5)+&quot;&quot;;</div><div class="line">            System.out.println(money);</div><div class="line">            //模拟几个用户</div><div class="line">            String userId = &quot;2aefe0c4c88f4ea1b39a68b6e33208d8&quot;;</div><div class="line">            String otherId=&quot;1bb4fc7d35c342a3a19bc23171aa3d22&quot;;</div><div class="line">            String userId1=&quot;1b638bd7dbb445a3bfe1efbec1a61e4e&quot;;</div><div class="line">            String userId2=&quot;551926783cb64524b3127ec02529d371&quot;;</div><div class="line">            Account a = null;</div><div class="line">        //设置不同的转账</div><div class="line">            if(&quot;1&quot;.equals(money)) &#123;</div><div class="line">                 a = new Account(money,userId,otherId);</div><div class="line">            &#125;</div><div class="line">            else if(&quot;2&quot;.equals(money)) &#123;</div><div class="line">                 a = new Account(money,userId1,userId);</div><div class="line">            &#125;else if(&quot;3&quot;.equals(money)) &#123;</div><div class="line">                 a = new Account(money,userId2,userId);</div><div class="line">            &#125;</div><div class="line">            else &#123;</div><div class="line">                 a = new Account(money,userId1,otherId);</div><div class="line">            &#125;</div><div class="line">            Thread t = new Thread(a);</div><div class="line">            t.start();</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    static class Account implements Runnable &#123;</div><div class="line">        String money = &quot;0&quot;;</div><div class="line">        String userId = &quot;&quot;;</div><div class="line">        String otherId=&quot;&quot;;</div><div class="line">        public Account(String money,String userId,String otherId) &#123;</div><div class="line">            this.money = money;</div><div class="line">            this.otherId = otherId;</div><div class="line">            this.userId = userId;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        @Override</div><div class="line">        public void run() &#123;</div><div class="line">            long begintime = System.currentTimeMillis();</div><div class="line">              try &#123;</div><div class="line">               URL url = new URL(&quot;http:xxx?userId=&quot;</div><div class="line">                       +userId+&quot;&amp;otherId=&quot;+otherId+&quot;&amp;remarks=xxx&quot;</div><div class="line">                       +&quot;&amp;money=&quot;+money);</div><div class="line">               HttpURLConnection urlcon = (HttpURLConnection)url.openConnection();</div><div class="line">               urlcon.connect();         //获取连接</div><div class="line">               InputStream is = urlcon.getInputStream();</div><div class="line">               BufferedReader buffer = new BufferedReader(new InputStreamReader(is));</div><div class="line">               StringBuffer bs = new StringBuffer();</div><div class="line">               String l = null;</div><div class="line">               while((l=buffer.readLine())!=null)&#123;</div><div class="line">                   bs.append(l).append(&quot;/n&quot;);</div><div class="line">               &#125;</div><div class="line">               System.out.println(bs.toString());//打印出信息</div><div class="line"></div><div class="line">               System.out.println(&quot;总共执行时间为：&quot;+(System.currentTimeMillis()-begintime)+&quot;毫秒&quot;);</div><div class="line">            &#125;catch(IOException e)&#123;</div><div class="line">               System.out.println(e);</div><div class="line">           &#125;</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样写的程序可能出现有两个线程同时进行A给B转账,请先不要在意这种情况.<br>这是我数据库账户初始值,每人设置100:</p>
+<p>1,在不加锁的情况下,跑完后:</p>
+<p>总额变小了扇<br>2,加了共享锁,跑完后:</p>
+<p>总额是对的,但是报错了:<br>Deadlock found when trying to get lock; try restarting transaction;<br>产生死锁了,但是mysql会自己强制性重启事务,所以不会一直死锁下去,程序之后还会运行.<br>3加了排他锁后:</p>
+<p>没有错误,正确运行</p>
+<p>这样就可以保证转账正确运行了,</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/18/save-emoji-in-mysql/" rel="next" title="怎么将emoji表情存入mysql">
+                <i class="fa fa-chevron-left"></i> 怎么将emoji表情存入mysql
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/04/18/array-to-list/" rel="prev" title="array转list的注意点">
+                array转list的注意点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/head.jpg"
+               alt="xiaoyu" />
+          <p class="site-author-name" itemprop="name">xiaoyu</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dressrosa" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xiaoyu</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "bf7fd93923494947a1e09d9ea09940a6",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+  
+
+</body>
+</html>

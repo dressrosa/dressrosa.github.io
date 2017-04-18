@@ -90,10 +90,10 @@
 <meta name="description" content="在spring中默认是不能注入static变量的,因为static是类变量,而spring是基于实例对象进行注入的.但是我们有时候需要static的变量进行操作.比如我们经常使用的jedis,如果每次调用jedis的时候都要实例化一遍,是非常麻烦的.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring注入static变量">
-<meta property="og:url" content="http://bigqi.xyz/2017/03/20/inject-static-variable-in-spring/index.html">
+<meta property="og:url" content="http://www.iwouldbe.com/2017/03/20/inject-static-variable-in-spring/index.html">
 <meta property="og:site_name" content="xiaoyu">
 <meta property="og:description" content="在spring中默认是不能注入static变量的,因为static是类变量,而spring是基于实例对象进行注入的.但是我们有时候需要static的变量进行操作.比如我们经常使用的jedis,如果每次调用jedis的时候都要实例化一遍,是非常麻烦的.">
-<meta property="og:updated_time" content="2017-03-20T13:27:42.540Z">
+<meta property="og:updated_time" content="2017-04-18T07:34:07.103Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring注入static变量">
 <meta name="twitter:description" content="在spring中默认是不能注入static变量的,因为static是类变量,而spring是基于实例对象进行注入的.但是我们有时候需要static的变量进行操作.比如我们经常使用的jedis,如果每次调用jedis的时候都要实例化一遍,是非常麻烦的.">
@@ -109,8 +109,8 @@
     fancybox: true,
     motion: true,
     duoshuo: {
-      userId: '6395378186598745000',
-      author: 'xiaoyu'
+      userId: 'undefined',
+      author: '博主'
     },
     algolia: {
       applicationID: '',
@@ -124,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="http://bigqi.xyz/2017/03/20/inject-static-variable-in-spring/"/>
+  <link rel="canonical" href="http://www.iwouldbe.com/2017/03/20/inject-static-variable-in-spring/"/>
 
 
 
@@ -269,7 +269,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://bigqi.xyz/2017/03/20/inject-static-variable-in-spring/">
+    <link itemprop="mainEntityOfPage" href="http://www.iwouldbe.com/2017/03/20/inject-static-variable-in-spring/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xiaoyu">
@@ -346,8 +346,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/20/inject-static-variable-in-spring/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/20/inject-static-variable-in-spring/" itemprop="commentCount"></span>
+                <a class="cloud-tie-join-count" href="/2017/03/20/inject-static-variable-in-spring/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -438,6 +438,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/04/18/summary-of-cdl-cb/" rel="prev" title="CountDownLatch和CyclicBarrier原理的分析理解">
+                CountDownLatch和CyclicBarrier原理的分析理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -451,25 +455,6 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/03/20/inject-static-variable-in-spring/"
-     data-title="spring注入static变量"
-     data-content=""
-     data-url="http://bigqi.xyz/2017/03/20/inject-static-variable-in-spring/">
-  <div class="ds-share-inline">
-    <ul  class="ds-share-icons-16">
-
-      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-
-    </ul>
-    <div class="ds-share-icons-more">
-    </div>
-  </div>
-</div>
-      
     </div>
   </div>
 
@@ -481,9 +466,7 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/20/inject-static-variable-in-spring/"
-           data-title="spring注入static变量" data-url="http://bigqi.xyz/2017/03/20/inject-static-variable-in-spring/">
-      </div>
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
     
   </div>
 
@@ -522,7 +505,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -533,7 +516,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -544,7 +527,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -699,35 +682,31 @@
 
   
 
-  
-    
+
+
   
 
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"bigqixyz"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.id = 'duoshuo-script';
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
+
+
+
+	
+
+
+
+
 
   
     
-    
-    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
-    <script src="/js/src/hook-duoshuo.js"></script>
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "bf7fd93923494947a1e09d9ea09940a6",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
   
-
-
-
-
-
-
 
 
 

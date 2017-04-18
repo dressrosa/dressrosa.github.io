@@ -289,7 +289,7 @@ mathjax:
 #baidu_analytics:
 
 # Duoshuo ShortName
-duoshuo_shortname: bigqixyz
+# duoshuo_shortname: bigqixyz
 
 # Disqus
 #disqus_shortname:
@@ -298,7 +298,7 @@ duoshuo_shortname: bigqixyz
 #hypercomments_id:
 
 # Gentie productKey
-#gentie_productKey:
+gentie_productKey: bf7fd93923494947a1e09d9ea09940a6
 
 # Support for youyan comments system.
 # You can get your uid from http://www.uyan.cc
@@ -321,7 +321,7 @@ duoshuo_shortname: bigqixyz
 #add_this_id:
 
 # Share
-duoshuo_share: true
+# duoshuo_share: true
 
 # Google Webmaster tools verification setting
 # See: https://www.google.com/webmasters/
@@ -344,12 +344,13 @@ duoshuo_share: true
 # Make duoshuo show UA
 # user_id must NOT be null when admin_enable is true!
 # you can visit http://dev.duoshuo.com get duoshuo user id.
-duoshuo_info:
-  ua_enable: true
-  admin_enable: false
-  user_id: 6395378186598744833
-  admin_nickname: xiaoyu
+# duoshuo_info:
+  # ua_enable: true
+  # admin_enable: false
+  # user_id: 6395378186598744833
+  # admin_nickname: xiaoyu
 
+  
 
 # Facebook SDK Support.
 # https://github.com/iissnan/hexo-theme-next/pull/410
