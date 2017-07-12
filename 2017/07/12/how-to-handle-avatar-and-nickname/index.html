@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="mysql," />
+  <meta name="keywords" content="mysql -," />
 
 
 
@@ -87,16 +87,16 @@
 
 
 
-<meta name="description" content="mysql的数据库, 表 ,字段的字符集必须是utf8mb4,怎么设置自酌,但可以看看自己数据库的字符集 show variables like ‘%set%保证 Character set是utf8mb4 – UTF-8 Unicodecollation是utf8mb4_unicode_ci就可以了,utf8和utf8mb4不冲突的,所以不用考虑改变后对其他地方有影响">
+<meta name="description" content="在日常的业务处理中,我们需要各种复杂的逻辑,但其实核心永远都是围绕这用户而开始的.用户信息复杂多样,可是其中我们最常用的就限于其中几个,比如用户名,id还是头像.用户的id是唯一不变了,用户昵称和头像是可变的.在有些业务下,用户id是作为一个键值存入相应的数据表中的,而用户昵称和头像并不会一定存入对应表中.我们需要在用的时候才去查询.这样在某些情况下,其实造成了很大的效率浪费.比如一个业务的信息是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="怎么将emoji表情存入mysql">
-<meta property="og:url" content="http://www.iwouldbe.com/2017/04/18/save-emoji-in-mysql/index.html">
+<meta property="og:title" content="how to handle avatar and nickname">
+<meta property="og:url" content="http://www.iwouldbe.com/2017/07/12/how-to-handle-avatar-and-nickname/index.html">
 <meta property="og:site_name" content="xiaoyu">
-<meta property="og:description" content="mysql的数据库, 表 ,字段的字符集必须是utf8mb4,怎么设置自酌,但可以看看自己数据库的字符集 show variables like ‘%set%保证 Character set是utf8mb4 – UTF-8 Unicodecollation是utf8mb4_unicode_ci就可以了,utf8和utf8mb4不冲突的,所以不用考虑改变后对其他地方有影响">
-<meta property="og:updated_time" content="2017-04-18T07:54:05.460Z">
+<meta property="og:description" content="在日常的业务处理中,我们需要各种复杂的逻辑,但其实核心永远都是围绕这用户而开始的.用户信息复杂多样,可是其中我们最常用的就限于其中几个,比如用户名,id还是头像.用户的id是唯一不变了,用户昵称和头像是可变的.在有些业务下,用户id是作为一个键值存入相应的数据表中的,而用户昵称和头像并不会一定存入对应表中.我们需要在用的时候才去查询.这样在某些情况下,其实造成了很大的效率浪费.比如一个业务的信息是">
+<meta property="og:updated_time" content="2017-07-12T12:27:34.941Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="怎么将emoji表情存入mysql">
-<meta name="twitter:description" content="mysql的数据库, 表 ,字段的字符集必须是utf8mb4,怎么设置自酌,但可以看看自己数据库的字符集 show variables like ‘%set%保证 Character set是utf8mb4 – UTF-8 Unicodecollation是utf8mb4_unicode_ci就可以了,utf8和utf8mb4不冲突的,所以不用考虑改变后对其他地方有影响">
+<meta name="twitter:title" content="how to handle avatar and nickname">
+<meta name="twitter:description" content="在日常的业务处理中,我们需要各种复杂的逻辑,但其实核心永远都是围绕这用户而开始的.用户信息复杂多样,可是其中我们最常用的就限于其中几个,比如用户名,id还是头像.用户的id是唯一不变了,用户昵称和头像是可变的.在有些业务下,用户id是作为一个键值存入相应的数据表中的,而用户昵称和头像并不会一定存入对应表中.我们需要在用的时候才去查询.这样在某些情况下,其实造成了很大的效率浪费.比如一个业务的信息是">
 
 
 
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://www.iwouldbe.com/2017/04/18/save-emoji-in-mysql/"/>
+  <link rel="canonical" href="http://www.iwouldbe.com/2017/07/12/how-to-handle-avatar-and-nickname/"/>
 
 
 
 
 
-  <title> 怎么将emoji表情存入mysql | xiaoyu </title>
+  <title> how to handle avatar and nickname | xiaoyu </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -279,7 +279,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://www.iwouldbe.com/2017/04/18/save-emoji-in-mysql/">
+    <link itemprop="mainEntityOfPage" href="http://www.iwouldbe.com/2017/07/12/how-to-handle-avatar-and-nickname/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xiaoyu">
@@ -300,7 +300,7 @@
             
             
               
-                怎么将emoji表情存入mysql
+                how to handle avatar and nickname
               
             
           </h1>
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-18T15:52:47+08:00">
-                2017-04-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T20:25:34+08:00">
+                2017-07-12
               </time>
             
 
@@ -338,8 +338,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index">
-                    <span itemprop="name">mysql</span>
+                  <a href="/categories/idea/" itemprop="url" rel="index">
+                    <span itemprop="name">idea</span>
                   </a>
                 </span>
 
@@ -356,7 +356,7 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a class="cloud-tie-join-count" href="/2017/04/18/save-emoji-in-mysql/#comments" itemprop="discussionUrl">
+                <a class="cloud-tie-join-count" href="/2017/07/12/how-to-handle-avatar-and-nickname/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count join-count" itemprop="commentCount"></span>
                 </a>
               </span>
@@ -383,18 +383,16 @@
       
 
       
-        <ol>
-<li>mysql的数据库, 表 ,字段的字符集必须是utf8mb4,怎么设置自酌,<br>但可以看看自己数据库的字符集 show variables like ‘%set%<br>保证 Character set是utf8mb4 – UTF-8 Unicode<br>collation是utf8mb4_unicode_ci就可以了,<br>utf8和utf8mb4不冲突的,所以不用考虑改变后对其他地方有影响<a id="more"></a>
-2.utf8mb4必须是新版的mysql才支持,网上虽说5.5+就可以了,但是没有具体到几点几,最好还是mysql官网下载最新的版本,<br>具体的安装卸载过程自酌</li>
-</ol>
-<p>3.emoji表情不是图片,而是一种4字节的字符,属于unicode,以前的mysql utf8只能解析到3字节,不要想着怎么做图片替换的问题.</p>
-<p>4.确定所有的字符都修改完毕后,在存入数据库之前代码做一下调整就行:我用的springMVC+mybatis ,<br>所以再需要输入表情的mybatis xml 里面加一个</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;update id=&quot;predo&quot;&gt;</div><div class="line">set names utfmb4</div><div class="line">&lt;/update&gt;</div></pre></td></tr></table></figure>
-<p>然后再调用你需要插入表情的语句,<br>我在service这样调用: </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">this.dao.predo(); </div><div class="line">this.dao.insert(feedBack);</div></pre></td></tr></table></figure>
-<p>这样就会插入表情到数据库,但是数据库显示的问号,不过没关系,app里面显示出来的的确是表情.<br>其实就是每次调用之前先执行一下set names utfmb4</p>
-<p>我是在之前的数据库改到utfmb4的也许从一开始就设置好也许就不用这样处理了.</p>
-<p>5.也许你没成功,也许别的方法或者设置也是可以的,请选择你认为简单的.但是原因都是因为mysql无法存入的问题,从这方面解决就行了</p>
+        <p>在日常的业务处理中,我们需要各种复杂的逻辑,但其实核心永远都是围绕这用户而开始的.用户信息复杂多样,可是其中我们最常用的就限于其中几个,比如用户名,id还是头像.<br>用户的id是唯一不变了,用户昵称和头像是可变的.在有些业务下,用户id是作为一个键值存入相应的数据表中的,而用户昵称和头像并不会一定存入对应表中.我们需要在用的时候才去查询.<br>这样在某些情况下,其实造成了很大的效率浪费.比如一个业务的信息是存在mongodb中的,但是需要用户的昵称,而用户是在mysql中的,这样在查询的时候,有很大的一部分的时间是用在查询mysql上面,非常得不偿失.所以如何更好的处理用户头像和昵称是很重要的.<br>下面说几种我认为这种情况下处理比较好的方法.<br><a id="more"></a><br>1.在查询用户信息并不占用很大时间<br> 这时候直接进入mysql查询也未尝不可,比如在查看文章详情的时候,获取用户信息其实并没有对整个业务产生多大影响,甚至你可以在页面上异步获取昵称头像信息,因为用户关注的重点在于文章的详情.</p>
+<p>2.在一个业务中大量查询用户信息<br> 比如获取一个文章列表,里面就需要不停的查询数据库,这样其实大部分时间并没有放在业务逻辑,而是用在取用户的头像昵称了.这种大量查询用户信息的情况下,我建议将用户的信息放在缓存中,比如redis中.<br>     而将用户基本信息全部存在缓存中的好处就是大量减少查询时间和数据库压力.但是同时又存在缓存信息的及时性.比如用户的信息是随时可以变的.<br>     这里又有2种处理方法.<br>     一是在用户修改信息的时候同时更新缓存信息  二是定时根据用户信息的修改时间更新缓存.<br>     这里我推荐使用第一种及时更新的方法,因为单个用户修改信息并刷缓存几乎不浪费时间,而第二种就很难定期时间的长短和信息的及时性.</p>
+<p>3.在昵称和头像不随时获取时<br> 在很多像帖子这种doc类型数据上,我们经常采用是将用户的头像和昵称也一起存入数据中的.这样我们可以不用去访问mysql或者缓存,效率非常的高.这时候如何保证头像和昵称的正确就很重要了  ,我们就必须有个定时同步头像和昵称的策略.   </p>
+<ul>
+<li>如果我们所有的帖子都要更新,在数据量非常多的情况下是很慢的.这时候我们可以设定一个更新的日期,比如非常久远的帖子,几乎没有任何的访问量,即使作者自己也许都不会在看了,这时候我们采用不去同步,或者按非常低的优先级去同步,完全不会影响正常的体验.</li>
+<li>比如新浪微博中,非常热门微博的评论有时候会达到几十万,而评论里面的二级回复有时候也会达到上万,这时候访问量会特别大.而这时候修改个人信息后,就必须立刻显示出来,不然体验就非常差了.像这种情况下,我们可以特殊处理,就是不采用已经存入数据的头像昵称,而是去获取上面2中所讲的缓存中的头像昵称.</li>
+<li>从用户的使用角度上,我们可以发现,在正常情况下,用户对于昵称和头像的修改频率是随着使用时间的长度而慢慢减少的,所以我们在同步时可以对注册时间越长(活跃度越少)的用户的同步进行降低优先级.</li>
+</ul>
+<p>4.头像的处理.<br>一般图片都是异步加载的,也就是图片的加载速度并不会影响数据的获取效率,但是头像加载太慢也会影响体验度.这时候前端也是需要做缓存的.<br>这里说一种用唯一id的思维考虑怎么修改头像.通常我们存入数据库的是图片的名字比如1.jpg,然后取出的时候拼接上图片服务器的前缀.正常我们上传头像是不会去图片本有的名字,而是采取我们生成的名字,比如时间加上一段随机串.这里我们可以知道每次我们修改都会生成一个新的名字然后再存入数据库.<br>这里我们可以这样做,就是头像在第一次生成名称后就不需要在改变了就如用户id一样.我门需要处理的是在修改头像的时候(不管是采取三方还是自己的图片服务器),将原来的图片做一个移动或重命名操作(保证这个图片的归属性可以确定即可),这样我们在用原来的名字命名需要上传的图片,这样图片的名称依旧没有改变,但其实图片是换掉了.这样操作我们就省了一步修改数据库的操作.</p>
+<p>总结.这里只是提供了自己的几种处理的想法,并没有提供具体的实现方案.可能并不很完善,仅供参考.</p>
 
       
     </div>
@@ -424,7 +422,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/mysql/" rel="tag"># mysql</a>
+            <a href="/tags/mysql/" rel="tag"># mysql -</a>
           
         </div>
       
@@ -437,8 +435,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/04/18/summary-of-cdl-cb/" rel="next" title="CountDownLatch和CyclicBarrier原理的分析理解">
-                <i class="fa fa-chevron-left"></i> CountDownLatch和CyclicBarrier原理的分析理解
+              <a href="/2017/04/18/transfer-params/" rel="next" title="前后台传参方式">
+                <i class="fa fa-chevron-left"></i> 前后台传参方式
               </a>
             
           </div>
@@ -446,10 +444,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/04/18/mysql-transfer/" rel="prev" title="mysql和转账的实现">
-                mysql和转账的实现 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
