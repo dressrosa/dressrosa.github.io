@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="blog, java" />
+  <meta name="keywords" content="mq -," />
 
 
 
@@ -87,13 +87,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://www.iwouldbe.com/categories/index.html">
+<meta name="description" content="不管是app还是h5,现在大多数都是以内容为上,而内容为核心的交互往往就是点赞评论或许还可以打赏等.而这些操作以后,就涉及到消息的推送处理.这里的逻辑看起来非常简单,就是点赞或者评论后,发一条消息给对方表面谁给你点赞或者评论了.但是其中需要考虑的东西还是不少的.1.首先我们考虑下哪些情况需要推送,并不是所有的点赞和评论都需要推送.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅谈点赞评论后对于推送的逻辑处理">
+<meta property="og:url" content="http://www.iwouldbe.com/2017/07/27/handle-the-push-when-like-and-comment/index.html">
 <meta property="og:site_name" content="xiaoyu">
-<meta property="og:updated_time" content="2017-04-18T07:34:07.105Z">
+<meta property="og:description" content="不管是app还是h5,现在大多数都是以内容为上,而内容为核心的交互往往就是点赞评论或许还可以打赏等.而这些操作以后,就涉及到消息的推送处理.这里的逻辑看起来非常简单,就是点赞或者评论后,发一条消息给对方表面谁给你点赞或者评论了.但是其中需要考虑的东西还是不少的.1.首先我们考虑下哪些情况需要推送,并不是所有的点赞和评论都需要推送.">
+<meta property="og:updated_time" content="2017-07-27T01:30:36.174Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="浅谈点赞评论后对于推送的逻辑处理">
+<meta name="twitter:description" content="不管是app还是h5,现在大多数都是以内容为上,而内容为核心的交互往往就是点赞评论或许还可以打赏等.而这些操作以后,就涉及到消息的推送处理.这里的逻辑看起来非常简单,就是点赞或者评论后,发一条消息给对方表面谁给你点赞或者评论了.但是其中需要考虑的东西还是不少的.1.首先我们考虑下哪些情况需要推送,并不是所有的点赞和评论都需要推送.">
 
 
 
@@ -121,19 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://www.iwouldbe.com/categories/"/>
+  <link rel="canonical" href="http://www.iwouldbe.com/2017/07/27/handle-the-push-when-like-and-comment/"/>
 
 
 
 
 
-  <title>
-  
-
-  
-    categories | xiaoyu
-  
-</title>
+  <title> 浅谈点赞评论后对于推送的逻辑处理 | xiaoyu </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -168,7 +165,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left  ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -273,25 +270,196 @@
             
 
   <div id="posts" class="posts-expand">
-  <header class="post-header">
+    
 
-	<h1 class="post-title" itemprop="name headline">categories</h1>
+  
 
+  
+  
+  
 
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.iwouldbe.com/2017/07/27/handle-the-push-when-like-and-comment/">
 
-</header>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xiaoyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoyu">
+    </span>
 
     
-    
-      <div class="category-all-page">
-        <div class="category-all-title">
-            目前共计 5 个分类
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                浅谈点赞评论后对于推送的逻辑处理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-27T09:29:09+08:00">
+                2017-07-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/idea/" itemprop="url" rel="index">
+                    <span itemprop="name">idea</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/07/27/handle-the-push-when-like-and-comment/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
         </div>
-        <div class="category-all">
-          <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/idea/">idea</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js/">js</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/spring/">spring</a><span class="category-list-count">1</span></li></ul>
-        </div>
-      </div>
+      </header>
     
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>不管是app还是h5,现在大多数都是以内容为上,而内容为核心的交互往往就是点赞评论或许还可以打赏等.而这些操作以后,就涉及到消息的推送处理.<br>这里的逻辑看起来非常简单,就是点赞或者评论后,发一条消息给对方表面谁给你点赞或者评论了.但是其中需要考虑的东西还是不少的.<br>1.首先我们考虑下哪些情况需要推送,并不是所有的点赞和评论都需要推送.<br><a id="more"></a><br>这里以评论为例.一般有哪些评论:</p>
+<ul>
+<li>评论自己(或别人)的文章</li>
+<li>回复自己(或别人)的评论</li>
+<li>评论文章并@了自己(或别人)</li>
+<li>回复自己(或别人)并@了自己(或别人)  </li>
+</ul>
+<p>这里面就有区分自己和别人,可能还有多人的情况以及@人后推送几条的问题,还有自己@自己这种看起来不可能的事情.不管如何,程序就必须各种情况都要考虑到.比如这里自己给自己文章评论就没必要推送给自己,比如评论别人并@了人,那么就需要给作者推送一条和@对象推送一条(多条).</p>
+<p>2.怎样去屏蔽一些没必要的推送<br>这里常见的比如对一篇文章进行不停的点赞取消点赞取消操作,这时候如果每一条都要推送,这简直就会烦死人了.这种情况,一我们可以在前端做一下判断,比如连续很快的点击操作会被禁止,这样就可以避免一些恶意操作.二.我们在对同一用户的同一操作的多次行为不予响应,也就是我们只在第一次点赞进行推送,后面取消再点赞就不再进行推送了.对于点赞人来讲,推送的动作对于他并无影响,而对于作者来讲,他只关心这个人是否点了赞.这样处理是完全可行的.  </p>
+<p>3.技术层面的处理<br>代码逻辑上推荐采用消息队列的方式.对于消息队列的封装可以参见我的github(<a href="https://github.com/dressrosa/celery" target="_blank" rel="external">celery</a>).<br>采用消息队列的好处在于异步处理而且不影响主线业务的进行.我这里建议两点.<br>一是put消息时,最好只是需要传核心参数,而不要在主线业务逻辑里面进行消息的参数处理.意思是我们put给消息的参数最好不要再有二次查询,所有的逻辑应该放在消费者那里进行.这样才能提现异步的好处.<br>二.消费者那里不要抛出异常.我在做业务的时候需要调用另一个同事的接口,结果有一天他那里出错了.而导致我这边业务无法进行.这里我是在业务里全改为try{}catch()了.但是真正的调用方是不关心也不应该出现异常的.所以在消费者端应该对异常有个统一的处理,即使是错误也是返回统一错误码而不是异常.  </p>
+<p>好了,暂时就总结这么多,仅供参考.对于消息的后续处理以后有机会再总结.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mq/" rel="tag"># mq -</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/12/how-to-handle-avatar-and-nickname/" rel="next" title="如何更好的处理查询用户的头像和昵称">
+                <i class="fa fa-chevron-left"></i> 如何更好的处理查询用户的头像和昵称
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
           
@@ -504,6 +672,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
