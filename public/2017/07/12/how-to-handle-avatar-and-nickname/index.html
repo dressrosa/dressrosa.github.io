@@ -1,0 +1,754 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="mysql -," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/rain.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在日常的业务处理中,我们需要各种复杂的逻辑,但其实核心永远都是围绕这用户而开始的.用户信息复杂多样,可是其中我们最常用的就限于其中几个,比如用户名,id还是头像.用户的id是唯一不变了,用户昵称和头像是可变的.在有些业务下,用户id是作为一个键值存入相应的数据表中的,而用户昵称和头像并不会一定存入对应表中.我们需要在用的时候才去查询.这样在某些情况下,其实造成了很大的效率浪费.比如一个业务的信息是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何更好的处理查询用户的头像和昵称">
+<meta property="og:url" content="http://www.iwouldbe.com/2017/07/12/how-to-handle-avatar-and-nickname/index.html">
+<meta property="og:site_name" content="xiaoyu">
+<meta property="og:description" content="在日常的业务处理中,我们需要各种复杂的逻辑,但其实核心永远都是围绕这用户而开始的.用户信息复杂多样,可是其中我们最常用的就限于其中几个,比如用户名,id还是头像.用户的id是唯一不变了,用户昵称和头像是可变的.在有些业务下,用户id是作为一个键值存入相应的数据表中的,而用户昵称和头像并不会一定存入对应表中.我们需要在用的时候才去查询.这样在某些情况下,其实造成了很大的效率浪费.比如一个业务的信息是">
+<meta property="og:updated_time" content="2017-07-12T12:29:54.310Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何更好的处理查询用户的头像和昵称">
+<meta name="twitter:description" content="在日常的业务处理中,我们需要各种复杂的逻辑,但其实核心永远都是围绕这用户而开始的.用户信息复杂多样,可是其中我们最常用的就限于其中几个,比如用户名,id还是头像.用户的id是唯一不变了,用户昵称和头像是可变的.在有些业务下,用户id是作为一个键值存入相应的数据表中的,而用户昵称和头像并不会一定存入对应表中.我们需要在用的时候才去查询.这样在某些情况下,其实造成了很大的效率浪费.比如一个业务的信息是">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 'undefined',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.iwouldbe.com/2017/07/12/how-to-handle-avatar-and-nickname/"/>
+
+
+
+
+
+  <title> 如何更好的处理查询用户的头像和昵称 | xiaoyu </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?208824764387c8efd4b200bc878c1dec";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xiaoyu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://www.iwouldbe.com/2017/07/12/how-to-handle-avatar-and-nickname/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xiaoyu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xiaoyu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                如何更好的处理查询用户的头像和昵称
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-12T20:25:34+08:00">
+                2017-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/idea/" itemprop="url" rel="index">
+                    <span itemprop="name">idea</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/2017/07/12/how-to-handle-avatar-and-nickname/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在日常的业务处理中,我们需要各种复杂的逻辑,但其实核心永远都是围绕这用户而开始的.用户信息复杂多样,可是其中我们最常用的就限于其中几个,比如用户名,id还是头像.<br>用户的id是唯一不变了,用户昵称和头像是可变的.在有些业务下,用户id是作为一个键值存入相应的数据表中的,而用户昵称和头像并不会一定存入对应表中.我们需要在用的时候才去查询.<br>这样在某些情况下,其实造成了很大的效率浪费.比如一个业务的信息是存在mongodb中的,但是需要用户的昵称,而用户是在mysql中的,这样在查询的时候,有很大的一部分的时间是用在查询mysql上面,非常得不偿失.所以如何更好的处理用户头像和昵称是很重要的.<br>下面说几种我认为这种情况下处理比较好的方法.<br><a id="more"></a><br>1.在查询用户信息并不占用很大时间<br> 这时候直接进入mysql查询也未尝不可,比如在查看文章详情的时候,获取用户信息其实并没有对整个业务产生多大影响,甚至你可以在页面上异步获取昵称头像信息,因为用户关注的重点在于文章的详情.</p>
+<p>2.在一个业务中大量查询用户信息<br> 比如获取一个文章列表,里面就需要不停的查询数据库,这样其实大部分时间并没有放在业务逻辑,而是用在取用户的头像昵称了.这种大量查询用户信息的情况下,我建议将用户的信息放在缓存中,比如redis中.<br>     而将用户基本信息全部存在缓存中的好处就是大量减少查询时间和数据库压力.但是同时又存在缓存信息的及时性.比如用户的信息是随时可以变的.<br>     这里又有2种处理方法.<br>     一是在用户修改信息的时候同时更新缓存信息  二是定时根据用户信息的修改时间更新缓存.<br>     这里我推荐使用第一种及时更新的方法,因为单个用户修改信息并刷缓存几乎不浪费时间,而第二种就很难定期时间的长短和信息的及时性.</p>
+<p>3.在昵称和头像不随时获取时<br> 在很多像帖子这种doc类型数据上,我们经常采用是将用户的头像和昵称也一起存入数据中的.这样我们可以不用去访问mysql或者缓存,效率非常的高.这时候如何保证头像和昵称的正确就很重要了  ,我们就必须有个定时同步头像和昵称的策略.   </p>
+<ul>
+<li>如果我们所有的帖子都要更新,在数据量非常多的情况下是很慢的.这时候我们可以设定一个更新的日期,比如非常久远的帖子,几乎没有任何的访问量,即使作者自己也许都不会在看了,这时候我们采用不去同步,或者按非常低的优先级去同步,完全不会影响正常的体验.</li>
+<li>比如新浪微博中,非常热门微博的评论有时候会达到几十万,而评论里面的二级回复有时候也会达到上万,这时候访问量会特别大.而这时候修改个人信息后,就必须立刻显示出来,不然体验就非常差了.像这种情况下,我们可以特殊处理,就是不采用已经存入数据的头像昵称,而是去获取上面2中所讲的缓存中的头像昵称.</li>
+<li>从用户的使用角度上,我们可以发现,在正常情况下,用户对于昵称和头像的修改频率是随着使用时间的长度而慢慢减少的,所以我们在同步时可以对注册时间越长(活跃度越少)的用户的同步进行降低优先级.</li>
+</ul>
+<p>4.头像的处理.<br>一般图片都是异步加载的,也就是图片的加载速度并不会影响数据的获取效率,但是头像加载太慢也会影响体验度.这时候前端也是需要做缓存的.<br>这里说一种用唯一id的思维考虑怎么修改头像.通常我们存入数据库的是图片的名字比如1.jpg,然后取出的时候拼接上图片服务器的前缀.正常我们上传头像是不会去图片本有的名字,而是采取我们生成的名字,比如时间加上一段随机串.这里我们可以知道每次我们修改都会生成一个新的名字然后再存入数据库.<br>这里我们可以这样做,就是头像在第一次生成名称后就不需要在改变了就如用户id一样.我门需要处理的是在修改头像的时候(不管是采取三方还是自己的图片服务器),将原来的图片做一个移动或重命名操作(保证这个图片的归属性可以确定即可),这样我们在用原来的名字命名需要上传的图片,这样图片的名称依旧没有改变,但其实图片是换掉了.这样操作我们就省了一步修改数据库的操作.</p>
+<p>总结.这里只是提供了自己的几种处理的想法,并没有提供具体的实现方案.可能并不很完善,仅供参考.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql -</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/04/18/transfer-params/" rel="next" title="前后台传参方式">
+                <i class="fa fa-chevron-left"></i> 前后台传参方式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/27/handle-the-push-when-like-and-comment/" rel="prev" title="浅谈点赞评论后对于推送的逻辑处理">
+                浅谈点赞评论后对于推送的逻辑处理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/head.jpg"
+               alt="xiaoyu" />
+          <p class="site-author-name" itemprop="name">xiaoyu</p>
+           
+              <p class="site-description motion-element" itemprop="description"></p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/dressrosa" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xiaoyu</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "bf7fd93923494947a1e09d9ea09940a6",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+
+  
+
+</body>
+</html>
